@@ -22,6 +22,9 @@
 #include "gtp/commands/EchoCommand.h"
 #include "gtp/commands/PrintBoardCommand.h"
 #include "gtp/commands/PlayCommand.h"
+#include "gtp/commands/ListCommandsCommand.h"
+#include "gtp/commands/BoardSizeCommand.h"
+#include "gtp/commands/ClearBoardCommand.h"
 
 bool isNumericalString(const std::string &input){
     for(auto iter = input.begin(); iter < input.end(); ++iter){
@@ -60,7 +63,12 @@ std::map<std::string, std::string (*)(std::vector<std::string>::iterator, std::v
 void setupCommandParser(CommandParser &commandParser){
     commandParser.addCommand(new EchoCommand(GTP_CONSTANTS::COMMANDS::NAME_COMMAND, GTP_CONSTANTS::NAME));
     commandParser.addCommand(new EchoCommand(GTP_CONSTANTS::COMMANDS::PROTOCOL_VERSION_COMMAND, GTP_CONSTANTS::PROTOCOL_VERSION));
+    commandParser.addCommand(new EchoCommand(GTP_CONSTANTS::COMMANDS::VERSION_COMMAND, GTP_CONSTANTS::VERSION));
+    commandParser.addCommand(new EchoCommand("quit", ""));
     commandParser.addCommand(new PlayCommand());
+    commandParser.addCommand(new ListCommandsCommand(commandParser));
+    commandParser.addCommand(new BoardSizeCommand());
+    commandParser.addCommand(new ClearBoardCommand());
     commandParser.addCommand(new PrintBoardCommand());
 }
 
@@ -76,6 +84,7 @@ int main() {
     std::string input;
     while(input != "quit"){
         std::getline(std::cin, input);
+
         auto split = tokenize(input, &isWhitespace);
 
         if(split.empty()){
@@ -89,19 +98,20 @@ int main() {
             ++commandStartIndex;
         }
 
+
         try{
             std::vector<std::string> arguments(split.begin() + 1, split.end());
-
             std::string response = commandParser.parseCommand(split[commandStartIndex], arguments, boardState);
+            std::cout << "=";
             if(id != -1){
                 std::cout << id;
             }
-            std::cout << response << std::endl;
+            std::cout << " " << response << "\n\n";
         }catch(const CommandException *commandException){
             if(id != -1){
                 std::cout << id;
             }
-            std::cout << commandException->getExceptionText() << std::endl;
+            std::cout << "?  " << commandException->getExceptionText() << "\n\n";
         }
     }
     return 0;

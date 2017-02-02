@@ -28,5 +28,6 @@ public:
     ~CommandParser();
     void addCommand(Command *command);
     std::string parseCommand(const std::string &command, const std::vector<std::string> &arguments, BoardState &boardState);
+    std::vector<std::string> getCommands() const;
 };
 #endif //GTP_DRAGONSCLAW_COMMANDS_H

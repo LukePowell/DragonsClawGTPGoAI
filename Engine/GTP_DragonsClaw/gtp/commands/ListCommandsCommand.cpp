@@ -13,18 +13,18 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GTP_DRAGONSCLAW_PLAYCOMMAND_H
-#define GTP_DRAGONSCLAW_PLAYCOMMAND_H
+#include <sstream>
+#include "ListCommandsCommand.h"
+#include "../gtp_constants.h"
 
+ListCommandsCommand::ListCommandsCommand(const CommandParser &commandParser) : Command(GTP_CONSTANTS::COMMANDS::LIST_COMMANDS_COMMAND), commandParser(commandParser) {
+}
 
-#include "Command.h"
-
-class PlayCommand : public Command {
-private:
-public:
-    PlayCommand();
-    std::string parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException*) override;
-};
-
-
-#endif //GTP_DRAGONSCLAW_PLAYCOMMAND_H
+std::string ListCommandsCommand::parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException*){
+    auto commands = commandParser.getCommands();
+    std::stringstream output;
+    for(auto command : commands){
+        output << command << std::endl;
+    }
+    return output.str();
+}

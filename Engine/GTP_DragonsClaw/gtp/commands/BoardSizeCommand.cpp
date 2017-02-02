@@ -13,18 +13,25 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GTP_DRAGONSCLAW_PLAYCOMMAND_H
-#define GTP_DRAGONSCLAW_PLAYCOMMAND_H
-
-
+#include <cstdlib>
+#include "BoardSizeCommand.h"
 #include "Command.h"
+#include "../gtp_constants.h"
+#include "../../utilities/StringUtilities.h"
 
-class PlayCommand : public Command {
-private:
-public:
-    PlayCommand();
-    std::string parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException*) override;
-};
+BoardSizeCommand::BoardSizeCommand() : Command(GTP_CONSTANTS::COMMANDS::BOARD_SIZE_COMMAND){
 
+}
 
-#endif //GTP_DRAGONSCLAW_PLAYCOMMAND_H
+std::string BoardSizeCommand::parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException*) {
+    if(arguments.empty() || arguments.size() < 1){
+        throw CommandException::generateSyntaxError();
+    }
+
+    int size = std::atoi(arguments[0].c_str());
+    if(!boardState.resize(size)){
+        throw new CommandException("unacceptable size");
+    }
+
+    return "";
+}

@@ -38,3 +38,11 @@ std::string CommandParser::parseCommand(const std::string &command, const std::v
     }
 }
 
+std::vector<std::string> CommandParser::getCommands() const {
+    std::vector<std::string> arguments;
+    for(auto iter : knownCommands){
+        arguments.push_back(iter.first);
+    }
+    return arguments;
+}
+

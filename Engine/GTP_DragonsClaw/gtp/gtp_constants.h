@@ -44,6 +44,9 @@ namespace GTP_CONSTANTS {
         const std::string VERSION_COMMAND = "version";
         const std::string PROTOCOL_VERSION_COMMAND = "protocol_version";
         const std::string PLAY_COMMAND = "play";
+        const std::string LIST_COMMANDS_COMMAND = "list_commands";
+        const std::string BOARD_SIZE_COMMAND = "boardsize";
+        const std::string CLEAR_BOARD_COMMAND = "clear_board";
     }
 }
 #endif //GTP_DRAGONSCLAW_GTP_CONSTANTS_H

@@ -28,6 +28,8 @@ private:
     //Move *rootMove;
 public:
     bool makeMove(int playerId, int column, int row);
+    bool resize(int size);
     std::string getASCIIRepresentation() const;
+    void clear();
 };
 #endif //GTP_DRAGONSCLAW_BOARDSTATE_H

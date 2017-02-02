@@ -22,8 +22,6 @@ Board::Board() {
 }
 
 void Board::setupBoard() {
-    deleteBoard();
-
     board = new int*[size];
     for(int i = 0; i < size; ++i){
         board[i] = new int[size];
@@ -46,6 +44,7 @@ void Board::deleteBoard() {
 }
 
 void Board::setSize(int newSize) {
+    deleteBoard();
     this->size = newSize;
     setupBoard();
 }

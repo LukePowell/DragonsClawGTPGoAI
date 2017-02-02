@@ -13,18 +13,18 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef GTP_DRAGONSCLAW_PLAYCOMMAND_H
-#define GTP_DRAGONSCLAW_PLAYCOMMAND_H
+#ifndef GTP_DRAGONSCLAW_BOARDSIZECOMMAND_H
+#define GTP_DRAGONSCLAW_BOARDSIZECOMMAND_H
 
 
 #include "Command.h"
 
-class PlayCommand : public Command {
-private:
+class BoardSizeCommand : public Command {
 public:
-    PlayCommand();
-    std::string parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException*) override;
+    BoardSizeCommand();
+
+    std::string parse(std::vector<std::string> arguments, BoardState &boardState) throw(CommandException *) override;
 };
 
 
-#endif //GTP_DRAGONSCLAW_PLAYCOMMAND_H
+#endif //GTP_DRAGONSCLAW_BOARDSIZECOMMAND_H
