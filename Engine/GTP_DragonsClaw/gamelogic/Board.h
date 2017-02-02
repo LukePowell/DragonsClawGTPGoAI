@@ -18,6 +18,9 @@
 #define GTP_DRAGONSCLAW_BOARD_H
 
 
+#include <vector>
+#include "MoveVertex.h"
+
 class Board {
 private:
     int **board;
@@ -42,6 +45,7 @@ public:
     const int&getPieceAt(int x, int y) const;
 
     void play(int playerId, int column, int row);
+    std::vector<MoveVertex> getValidMoves() const;
 };
 
 

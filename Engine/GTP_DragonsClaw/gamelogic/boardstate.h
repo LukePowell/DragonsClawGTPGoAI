@@ -17,6 +17,7 @@
 #define GTP_DRAGONSCLAW_BOARDSTATE_H
 
 #include <string>
+#include <vector>
 #include "Board.h"
 #include "PlayerState.h"
 
@@ -31,5 +32,6 @@ public:
     bool resize(int size);
     std::string getASCIIRepresentation() const;
     void clear();
+    std::vector<MoveVertex> getValidMoveVertices();
 };
 #endif //GTP_DRAGONSCLAW_BOARDSTATE_H

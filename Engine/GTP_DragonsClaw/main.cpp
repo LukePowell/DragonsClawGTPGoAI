@@ -25,6 +25,7 @@
 #include "gtp/commands/ListCommandsCommand.h"
 #include "gtp/commands/BoardSizeCommand.h"
 #include "gtp/commands/ClearBoardCommand.h"
+#include "GenerateRandomMoveCommand.h"
 
 bool isNumericalString(const std::string &input){
     for(auto iter = input.begin(); iter < input.end(); ++iter){
@@ -70,6 +71,7 @@ void setupCommandParser(CommandParser &commandParser){
     commandParser.addCommand(new BoardSizeCommand());
     commandParser.addCommand(new ClearBoardCommand());
     commandParser.addCommand(new PrintBoardCommand());
+    commandParser.addCommand(new GenerateRandomMoveCommand());
 }
 
 int isWhitespace(int ch){
@@ -108,10 +110,12 @@ int main() {
             }
             std::cout << " " << response << "\n\n";
         }catch(const CommandException *commandException){
+
+            std::cout << "?";
             if(id != -1){
                 std::cout << id;
             }
-            std::cout << "?  " << commandException->getExceptionText() << "\n\n";
+            std::cout << " " << commandException->getExceptionText() << "\n\n";
         }
     }
     return 0;

@@ -13,38 +13,28 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "Commands.h"
+#ifndef GTP_DRAGONSCLAW_MOVEVECTOR_H
+#define GTP_DRAGONSCLAW_MOVEVECTOR_H
 
-void CommandParser::addCommand(Command *command) {
-    knownCommands[command->getCommand()] = command;
-}
 
-CommandParser::CommandParser() {
-    //this->addCommand(new )
-}
+#include <string>
 
-CommandParser::~CommandParser() {
-    for(auto iter : knownCommands){
-        delete iter.second;
-    }
-}
+class MoveVertex {
+private:
+    int row;
+    int column;
+public:
+    MoveVertex();
+    MoveVertex(int row, int column);
+    std::string getResponseVertex() const;
+    static std::string getResponseVector(int row, int column);
+    static std::string getResponseVertex(const MoveVertex &moveVertex);
+    static char columnToLetter(int column);
 
-std::string CommandParser::parseCommand(const std::string &command, const std::vector<std::string> &arguments,
-                                        BoardState &boardState) {
+    int getRow() const;
 
-    auto cmd = knownCommands.find(command);
-    if(cmd != knownCommands.end()){
-        return cmd->second->parse(arguments, boardState);
-    }else{
-        throw new CommandException("unknown command");
-    }
-}
+    int getColumn() const;
+};
 
-std::vector<std::string> CommandParser::getCommands() const {
-    std::vector<std::string> arguments;
-    for(auto iter : knownCommands){
-        arguments.push_back(iter.first);
-    }
-    return arguments;
-}
 
+#endif //GTP_DRAGONSCLAW_MOVEVECTOR_H

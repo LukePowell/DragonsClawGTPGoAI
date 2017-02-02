@@ -15,6 +15,7 @@
  */
 #include <cstring>
 #include "Board.h"
+#include "PlayerState.h"
 
 Board::Board() {
     size = Board::DEFAULT_SIZE;
@@ -71,4 +72,20 @@ const int &Board::getPieceAt(int x, int y) const {
 
 void Board::play(int playerId, int column, int row) {
     getPieceAt(column, row) = playerId;
+}
+
+/**
+ * TODO; Make this less dumb
+ * @return
+ */
+std::vector<MoveVertex> Board::getValidMoves() const {
+    std::vector<MoveVertex> output;
+    for(int y = 0; y < size; ++y){
+        for(int x = 0; x < size; ++x){
+            if(getPieceAt(x, y) == PlayerState::EMPTY_ID){
+                output.push_back(MoveVertex(y, x));
+            }
+        }
+    }
+    return output;
 }

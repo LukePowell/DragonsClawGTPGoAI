@@ -47,6 +47,7 @@ namespace GTP_CONSTANTS {
         const std::string LIST_COMMANDS_COMMAND = "list_commands";
         const std::string BOARD_SIZE_COMMAND = "boardsize";
         const std::string CLEAR_BOARD_COMMAND = "clear_board";
+        const std::string GEN_MOVE_COMMAND = "genmove";
     }
 }
 #endif //GTP_DRAGONSCLAW_GTP_CONSTANTS_H

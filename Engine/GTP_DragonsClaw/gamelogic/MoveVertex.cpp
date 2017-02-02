@@ -13,38 +13,42 @@
  * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#include "Commands.h"
+#include <sstream>
+#include "MoveVertex.h"
 
-void CommandParser::addCommand(Command *command) {
-    knownCommands[command->getCommand()] = command;
+MoveVertex::MoveVertex() : row(0), column(0) {
 }
 
-CommandParser::CommandParser() {
-    //this->addCommand(new )
+MoveVertex::MoveVertex(int row, int column) : row(row), column(column) {
 }
 
-CommandParser::~CommandParser() {
-    for(auto iter : knownCommands){
-        delete iter.second;
+std::string MoveVertex::getResponseVector(int row, int column) {
+    std::stringstream output;
+    output << MoveVertex::columnToLetter(column);
+    output << row;
+    return output.str();
+}
+
+char MoveVertex::columnToLetter(int column) {
+    char output = static_cast<char>(column + 'A');
+    if(output >= 'I'){
+        output++;
     }
+    return output;
 }
 
-std::string CommandParser::parseCommand(const std::string &command, const std::vector<std::string> &arguments,
-                                        BoardState &boardState) {
-
-    auto cmd = knownCommands.find(command);
-    if(cmd != knownCommands.end()){
-        return cmd->second->parse(arguments, boardState);
-    }else{
-        throw new CommandException("unknown command");
-    }
+std::string MoveVertex::getResponseVertex(const MoveVertex &moveVertex) {
+    return getResponseVector(19 - moveVertex.row, moveVertex.column);
 }
 
-std::vector<std::string> CommandParser::getCommands() const {
-    std::vector<std::string> arguments;
-    for(auto iter : knownCommands){
-        arguments.push_back(iter.first);
-    }
-    return arguments;
+std::string MoveVertex::getResponseVertex() const {
+    return getResponseVertex(*this);
 }
 
+int MoveVertex::getRow() const {
+    return row;
+}
+
+int MoveVertex::getColumn() const {
+    return column;
+}

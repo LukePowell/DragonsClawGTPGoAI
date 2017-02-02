@@ -28,6 +28,7 @@ public:
     static int getPlayerIdFromString(const std::string &string);
     static const int BLACK_ID = 1;
     static const int WHITE_ID = 2;
+    static const int EMPTY_ID = 0;
 };
 
 

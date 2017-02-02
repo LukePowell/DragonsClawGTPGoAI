@@ -85,3 +85,7 @@ void BoardState::clear() {
 //    blackPlayerState.reset();
     gameBoardCurrent.clear();
 }
+
+std::vector<MoveVertex> BoardState::getValidMoveVertices() {
+    return gameBoardCurrent.getValidMoves();
+}
