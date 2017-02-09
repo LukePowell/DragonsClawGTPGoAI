@@ -21,3 +21,38 @@ std::string & StringUtilities::toupper(std::string &string) {
     }
     return string;
 }
+
+bool StringUtilities::isNumericalString(const std::string &input){
+    for(auto iter = input.begin(); iter < input.end(); ++iter){
+        if(*iter < '0' || *iter > '9')
+            return false;
+    }
+
+    return true;
+}
+
+std::vector<std::string> StringUtilities::tokenize(std::string string, int (* comparator)(int)){
+    std::vector<std::string> output;
+    auto iter = string.begin();
+    std::string temp;
+    while(iter != string.end()){
+        if(!comparator(*iter)){
+            temp += *iter;
+        }
+        else if(!temp.empty()){
+            output.push_back(temp);
+            temp.clear();
+        }
+        ++iter;
+    }
+
+    if(!temp.empty()){
+        output.push_back(temp);
+    }
+
+    return output;
+}
+
+int StringUtilities::isWhitespace(int ch) {
+    return ch == 32 || ch == 9;
+}

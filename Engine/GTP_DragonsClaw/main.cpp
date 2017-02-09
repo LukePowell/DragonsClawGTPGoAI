@@ -26,40 +26,9 @@
 #include "gtp/commands/BoardSizeCommand.h"
 #include "gtp/commands/ClearBoardCommand.h"
 #include "GenerateRandomMoveCommand.h"
-
-bool isNumericalString(const std::string &input){
-    for(auto iter = input.begin(); iter < input.end(); ++iter){
-        if(*iter < '0' || *iter > '9')
-            return false;
-    }
-
-    return true;
-}
-
-std::vector<std::string> tokenize(std::string string, int (* comparator)(int)){
-    std::vector<std::string> output;
-    auto iter = string.begin();
-    std::string temp;
-    while(iter != string.end()){
-        if(!comparator(*iter)){
-            temp += *iter;
-        }
-        else if(!temp.empty()){
-            output.push_back(temp);
-            temp.clear();
-        }
-        ++iter;
-    }
-
-    if(!temp.empty()){
-        output.push_back(temp);
-    }
-
-    return output;
-}
+#include "gamelogic/Engine.h"
 
 
-std::map<std::string, std::string (*)(std::vector<std::string>::iterator, std::vector<std::string>::iterator, BoardState *) > commands;
 
 void setupCommandParser(CommandParser &commandParser){
     commandParser.addCommand(new EchoCommand(GTP_CONSTANTS::COMMANDS::NAME_COMMAND, GTP_CONSTANTS::NAME));
@@ -74,49 +43,10 @@ void setupCommandParser(CommandParser &commandParser){
     commandParser.addCommand(new GenerateRandomMoveCommand());
 }
 
-int isWhitespace(int ch){
-    return ch == 32 || ch == 9;
-}
-
 int main() {
     BoardState boardState;
     CommandParser commandParser;
     setupCommandParser(commandParser);
-
-    std::string input;
-    while(input != "quit"){
-        std::getline(std::cin, input);
-
-        auto split = tokenize(input, &isWhitespace);
-
-        if(split.empty()){
-            continue;
-        }
-
-        int commandStartIndex = 0;
-        int id = -1;
-        if(isNumericalString(split[commandStartIndex])){
-            id = std::atoi(split[commandStartIndex].c_str());
-            ++commandStartIndex;
-        }
-
-
-        try{
-            std::vector<std::string> arguments(split.begin() + 1, split.end());
-            std::string response = commandParser.parseCommand(split[commandStartIndex], arguments, boardState);
-            std::cout << "=";
-            if(id != -1){
-                std::cout << id;
-            }
-            std::cout << " " << response << "\n\n";
-        }catch(const CommandException *commandException){
-
-            std::cout << "?";
-            if(id != -1){
-                std::cout << id;
-            }
-            std::cout << " " << commandException->getExceptionText() << "\n\n";
-        }
-    }
-    return 0;
+    Engine engine(commandParser, boardState, std::cin, std::cout);
+    return engine.run();
 }

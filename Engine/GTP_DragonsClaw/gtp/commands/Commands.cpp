@@ -30,7 +30,7 @@ CommandParser::~CommandParser() {
 }
 
 std::string CommandParser::parseCommand(const std::string &command, const std::vector<std::string> &arguments,
-                                        BoardState &boardState) {
+                                        BoardState &boardState) const {
 
     auto cmd = knownCommands.find(command);
     if(cmd != knownCommands.end()){

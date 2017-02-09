@@ -18,9 +18,13 @@
 
 
 #include <string>
+#include <vector>
 
 namespace StringUtilities {
     std::string & toupper(std::string &string);
+    bool isNumericalString(const std::string &input);
+    std::vector<std::string> tokenize(std::string string, int (* comparator)(int));
+    int isWhitespace(int ch);
 }
 
 #endif //GTP_DRAGONSCLAW_STRINGUTILITIES_H
